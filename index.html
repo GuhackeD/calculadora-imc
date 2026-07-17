@@ -52,20 +52,37 @@
 		<h1>Calculadora de IMC</h1>
 
 		<label for="altura">Digite sua altura:</label>
-		<input type="number" id="altura">
+		<input type="text" id="altura" maxlength="4" placeholder="Altura">
 		
 		<label for="peso">Digite seu peso:</label>
-		<input type="number" id="peso">
+		<input type="number" id="peso" maxlength="3" placeholder="Peso em KG">
 
 		<button id="calcular">Calcular</button>
 	</div>
 
 	<script>
+
+		// Campo da altura
+		var alturaInput = document.getElementById("altura");
+
+		// Formata enquanto digita
+		alturaInput.addEventListener("input", () => {
+    			let valor = alturaInput.value.replace(/\D/g, "");
+
+   			 if (valor.length >= 3) {
+      			  valor = valor.slice(0, valor.length - 2) + "," + valor.slice(-2);
+    			}
+
+   			 alturaInput.value = valor;
+		});
+
+
 		var calcular = document.getElementById("calcular");
 
 		calcular.addEventListener("click", () => {
 			//obter altura
-			var altura = +document.getElementById("altura").value;
+			var altura = document.getElementById("altura").value.replace(",", ".");
+   			altura = parseFloat(altura);
 
 			//obter peso
 			var peso = +document.getElementById("peso").value;
@@ -98,7 +115,8 @@
 				situacao = "Obesidade III (mórbida)";
 			
 			//exibir situação
-			alert(situacao);
+			alert(`Seu IMC é ${imc.toFixed(2)}.\nSituação: ${situacao}`);
+			
 
 		});
 	</script>
